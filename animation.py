@@ -10,8 +10,8 @@ import matplotlib.collections as mcoll
 
 
 fig, ax = plt.subplots()
-cmap = mcolors.ListedColormap(["white", "red" , "black"])
-bounds = [-0.5, 0.5, 1.5]
+cmap = mcolors.ListedColormap(["white", "black", "red",])
+bounds = [-0.5, 0.5, 1.5, 2.5]
 norm = mcolors.BoundaryNorm(bounds, cmap.N)
 map_space = genfromtxt("map.csv", delimiter=";")
 im = ax.imshow(map_space, cmap=cmap, norm=norm)
@@ -25,7 +25,7 @@ ax.add_collection(grid)
 
 def animate(xCorr, yCorr):
     data = genfromtxt("map.csv", delimiter=";")
-    data[xCorr, yCorr] = 0.5
+    data[xCorr, yCorr] = 2
     im.set_data(data)
     # return a list of the artists that need to be redrawn
     return [im, grid]
