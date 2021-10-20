@@ -12,6 +12,11 @@ import PySimpleGUI as sg
 
 matplotlib.use("TkAgg")
 
+def moveRobot(xCoor, yCoor):
+    anim = animation.FuncAnimation(fig, animate, frames=2, interval=1, blit=True, repeat=True)
+    map_space[xCoor,yCoor] = 2
+    return map_space
+
 
 fig, ax = plt.subplots()
 cmap = mcolors.ListedColormap(["gray", "black", "lime",])
@@ -20,11 +25,6 @@ norm = mcolors.BoundaryNorm(bounds, cmap.N)
 
 map_space = genfromtxt("/home/nvmr/Documents/nmvr/nmvr/map.csv", delimiter=";")
 im = ax.imshow(map_space, cmap=cmap, norm=norm)
-
-def moveRobot(xCoor, yCoor):
-    map_space[xCoor,yCoor] = 2
-
-moveRobot(2,2)
 
 grid = np.arange(-0.5, 51, 1)
 xmin, xmax, ymin, ymax = -0.5, 50.5, -0.5, 50.5
@@ -36,11 +36,12 @@ ax.add_collection(grid)
 
 def animate(i):
     data = genfromtxt("/home/nvmr/Documents/nmvr/nmvr/map.csv", delimiter=";")
-    data[5,5] = 2
+    data = map_space
     im.set_data(data)
     return [im, grid]
 
 def draw_figure(canvas, figure):
+    
     figure_canvas_agg = FigureCanvasTkAgg(figure, canvas)
     figure_canvas_agg.draw()
     figure_canvas_agg.get_tk_widget().pack(side="top", fill="both", expand=1)
@@ -51,13 +52,14 @@ layout= [[sg.Text("Basic simulator GUI")],
         [sg.Button("OK")]]
 
 window = sg.Window("Sim GUI", layout, finalize=True, element_justification="center")
-
 fig_canvas_agg = draw_figure(window["-CANVAS-"].TKCanvas, fig)
 
-event, values = window.read()
+while True:
 
-anim = animation.FuncAnimation(fig, animate, frames=2, interval=1, blit=True, repeat=True)
+    moveRobot(8,8)
+
+    event, values = window.read()
+    if event in(sg.WIN_CLOSED, "Cancel"):
+        break
 
 window.close
-
-
