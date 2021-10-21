@@ -56,7 +56,7 @@ fig_canvas_agg = draw_figure(window["-CANVAS-"].TKCanvas, fig)
 
 while True:
 
-    moveRobot(8,8)
+    moveRobot(20, 20)
 
     event, values = window.read()
     if event in(sg.WIN_CLOSED, "Cancel"):
