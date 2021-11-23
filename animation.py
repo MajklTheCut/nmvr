@@ -23,7 +23,7 @@ cmap = mcolors.ListedColormap(["gray", "black", "lime",])
 bounds = [-0.5, 0.5, 1.5, 2.5]
 norm = mcolors.BoundaryNorm(bounds, cmap.N)
 
-map_space = genfromtxt("/home/nvmr/Documents/nmvr/nmvr/map.csv", delimiter=";")
+map_space = genfromtxt("nmvr\map.csv", delimiter=";")
 im = ax.imshow(map_space, cmap=cmap, norm=norm)
 
 grid = np.arange(-0.5, 51, 1)
@@ -35,7 +35,7 @@ ax.add_collection(grid)
 
 
 def animate(i):
-    data = genfromtxt("/home/nvmr/Documents/nmvr/nmvr/map.csv", delimiter=";")
+    data = genfromtxt("nmvr\map.csv", delimiter=";")
     data = map_space
     im.set_data(data)
     return [im, grid]
